@@ -2,6 +2,10 @@
 
 [English](README.md)
 
+[![npm version](https://img.shields.io/npm/v/humanvoid?logo=npm&label=npm)](https://www.npmjs.com/package/humanvoid)
+[![Pull request](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml/badge.svg?branch=main)](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml)
+[![License](https://img.shields.io/github/license/kepheer/humanvoid)](LICENSE)
+
 `humanvoid` оценивает вероятность того, что браузерный запрос был выполнен автоматически. Библиотека возвращает score и набор обнаруженных признаков, а приложение решает, разрешить запрос, ограничить его, потребовать challenge или заблокировать.
 
 ## Установка
