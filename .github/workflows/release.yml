@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run lint
+      - run: pnpm run format:check
+      - run: pnpm run test:coverage
+      - run: pnpm run build:clean
+
+      - name: Validate release version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          node --input-type=module -e "import pkg from './package.json' with { type: 'json' }; if ('v' + pkg.version !== process.env.TAG) throw new Error('Tag must equal v' + pkg.version)"
+
+      - name: Extract release notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: node .github/scripts/release-notes.mjs "$TAG" > release-notes.md
+
+      - run: pnpm publish --provenance --access public
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: gh release create "$TAG" --title "$TAG" --notes-file release-notes.md
