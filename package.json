@@ -1,0 +1,104 @@
+{
+  "name": "humanvoid",
+  "version": "1.0.0",
+  "description": "Scores how likely a visitor is an automated browser — Playwright, Puppeteer, raw CDP. Client and server, zero runtime deps.",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@11.21.0",
+  "sideEffects": false,
+  "keywords": [
+    "bot",
+    "antibot",
+    "bot-detection",
+    "bot-scoring",
+    "fingerprint",
+    "antifraud",
+    "antiscraping",
+    "playwright",
+    "puppeteer",
+    "selenium",
+    "webdriver",
+    "browser-automation"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kepheer/humanvoid.git"
+  },
+  "homepage": "https://github.com/kepheer/humanvoid#readme",
+  "bugs": {
+    "url": "https://github.com/kepheer/humanvoid/issues"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "pnpm run lint -- --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "pnpm run build:clean && node harness/runAll.mjs",
+    "test": "pnpm run typecheck && pnpm run test:unit",
+    "build": "tsup",
+    "build:clean": "node -e \"import('node:fs').then(({rmSync}) => rmSync('dist', { recursive: true, force: true }))\" && pnpm run build",
+    "prepack": "pnpm run build:clean",
+    "prepare": "husky || true"
+  },
+  "files": [
+    "dist",
+    "README_ru-RU.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "import": "./dist/client/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.js"
+    }
+  },
+  "author": "Kirill Ratmirov <k.ratmirov@efko.ru>",
+  "devDependencies": {
+    "@commitlint/cli": "21.2.1",
+    "@commitlint/config-conventional": "21.2.0",
+    "@eslint/js": "9.39.5",
+    "@types/jsdom": "30.0.0",
+    "@types/node": "26.2.0",
+    "@vitest/coverage-v8": "4.1.10",
+    "chromedriver": "151.0.5",
+    "esbuild": "0.28.2",
+    "eslint": "9.39.5",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "16.5.0",
+    "husky": "9.1.7",
+    "jsdom": "30.0.1",
+    "lint-staged": "17.3.0",
+    "playwright": "1.62.1",
+    "playwright-extra": "4.3.6",
+    "prettier": "3.9.6",
+    "puppeteer": "25.6.0",
+    "puppeteer-extra-plugin-stealth": "2.11.2",
+    "selenium-webdriver": "4.47.0",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.67.0",
+    "vitest": "4.1.10"
+  },
+  "overrides": {
+    "esbuild": "0.28.2"
+  },
+  "lint-staged": {
+    "*.{ts,js,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,yml,yaml,md,html}": "prettier --write"
+  }
+}

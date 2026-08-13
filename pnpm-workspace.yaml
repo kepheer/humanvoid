@@ -1,0 +1,17 @@
+minimumReleaseAge: 1440
+minimumReleaseAgeStrict: true
+minimumReleaseAgeIgnoreMissingTime: false
+saveExact: true
+engineStrict: true
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  # tsup@8.5.1 requires chokidar@^4.0.3; npm metadata reports no provenance for this exact, mature release.
+  - chokidar@4.0.3
+blockExoticSubdeps: true
+strictPeerDependencies: true
+verifyDepsBeforeRun: error
+strictDepBuilds: true
+allowBuilds:
+  chromedriver: true
+  esbuild: true
+  puppeteer: true
