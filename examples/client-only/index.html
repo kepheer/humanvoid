@@ -1,0 +1,9 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>humanvoid: client only</title>
+<pre id="output">Running…</pre>
+<script type="module">
+  import { detect } from '../../dist/client/index.js'
+
+  document.querySelector('#output').textContent = JSON.stringify(await detect(), null, 2)
+</script>

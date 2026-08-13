@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>humanvoid: client + server</title>
+<pre id="output">Collecting…</pre>
+<script type="module">
+  import { collect } from '../../dist/client/index.js'
+
+  const { challenge } = await fetch('/challenge').then((response) => response.json())
+  const payload = await collect({ challenge })
+  const result = await fetch('/verify', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload),
+  }).then((response) => response.json())
+
+  document.querySelector('#output').textContent = JSON.stringify(result, null, 2)
+</script>

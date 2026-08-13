@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>humanvoid harness</title>
+  </head>
+  <body>
+    <script type="module">
+      import { collect } from '/dist/client/index.js'
+      window.__humanvoidResult = null
+      try {
+        const { challenge } = await fetch('/challenge').then((response) => response.json())
+        const payload = await collect({ challenge })
+        window.__humanvoidResult = await fetch('/verify', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).then((response) => response.json())
+      } catch (error) {
+        window.__humanvoidResult = { error: error instanceof Error ? error.message : 'harness request failed' }
+      }
+    </script>
+  </body>
+</html>
