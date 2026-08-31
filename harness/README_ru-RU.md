@@ -26,6 +26,7 @@ pnpm exec playwright install chromium firefox webkit
 | `puppeteer-headless`           | Puppeteer                                    |
 | `puppeteer-cdp-session`        | Браузер Puppeteer под управлением CDP-сессии |
 | `selenium-chrome-headless`     | Selenium + chromedriver                      |
+| `cypress-chrome-headless`      | Cypress (Chrome, запущенный через CDP)       |
 
 `puppeteer-cdp-session` не является raw CDP: Puppeteer запускает браузер и создаёт страницу, после чего команды отправляются через CDP-сессию. Это сравнение high-level API Puppeteer с прямой CDP-навигацией и выполнением кода в одном процессе браузера.
 

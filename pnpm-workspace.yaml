@@ -13,5 +13,6 @@ verifyDepsBeforeRun: error
 strictDepBuilds: true
 allowBuilds:
   chromedriver: true
+  cypress: true
   esbuild: true
   puppeteer: true

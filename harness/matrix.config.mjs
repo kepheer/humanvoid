@@ -3,6 +3,7 @@ import { run as runPlaywrightStealth } from './runners/playwrightStealth.mjs'
 import { run as runPuppeteerHeadless } from './runners/puppeteer.mjs'
 import { run as runPuppeteerCdpSession } from './runners/puppeteerCdpSession.mjs'
 import { run as runSelenium } from './runners/selenium.mjs'
+import { run as runCypress } from './runners/cypress.mjs'
 
 export const MATRIX = [
   {
@@ -44,5 +45,10 @@ export const MATRIX = [
     name: 'selenium-chrome-headless',
     expected: 'medium-or-high',
     run: runSelenium,
+  },
+  {
+    name: 'cypress-chrome-headless',
+    expected: 'medium-or-high',
+    run: runCypress,
   },
 ]

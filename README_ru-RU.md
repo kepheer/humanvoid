@@ -159,7 +159,7 @@ pnpm run build:clean
 pnpm run test:e2e
 ```
 
-Browser harness запускает профили Playwright, Puppeteer и Selenium по полному клиент-серверному маршруту: challenge, сбор на клиенте, отправка payload и серверный verdict. Сначала установите браузерные движки Playwright:
+Browser harness запускает профили Playwright, Puppeteer, Selenium и Cypress по полному клиент-серверному маршруту: challenge, сбор на клиенте, отправка payload и серверный verdict. Сначала установите браузерные движки Playwright:
 
 ```sh
 pnpm exec playwright install chromium firefox webkit
