@@ -3,7 +3,7 @@
 [Русский](README_ru-RU.md)
 
 [![npm version](https://img.shields.io/npm/v/humanvoid?logo=npm&label=npm)](https://www.npmjs.com/package/humanvoid)
-[![Pull request](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml/badge.svg?branch=main)](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml)
+[![Pull request](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml/badge.svg)](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml)
 [![License](https://img.shields.io/github/license/kepheer/humanvoid)](LICENSE)
 
 `humanvoid` scores the likelihood that a browser request is automated. It returns evidence and a score; the application decides whether to allow, throttle, challenge, or block a request.
