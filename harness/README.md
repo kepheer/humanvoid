@@ -26,6 +26,7 @@ Profiles are defined in `matrix.config.mjs`:
 | `puppeteer-headless`           | Puppeteer                                          |
 | `puppeteer-cdp-session`        | Puppeteer browser controlled through a CDP session |
 | `selenium-chrome-headless`     | Selenium + chromedriver                            |
+| `cypress-chrome-headless`      | Cypress (Chrome launched through CDP)              |
 
 `puppeteer-cdp-session` is not raw CDP: Puppeteer launches the browser and creates the page before CDP commands are sent. It exists to compare Puppeteer's high-level page API with direct CDP navigation and evaluation in the same browser process.
 

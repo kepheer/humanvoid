@@ -6,7 +6,7 @@ import type { IServerContext } from '@server/model/types'
 export const acceptEncodingAnomaly: IDetector<IServerContext> = {
   key: 'acceptEncodingAnomaly',
   group: SIGNAL_GROUPS.HTTP,
-  weight: DEFAULT_WEIGHTS.acceptEncodingAnomaly ?? 15,
+  weight: DEFAULT_WEIGHTS.acceptEncodingAnomaly ?? 8,
   run: (context: IServerContext): TSignalResult => {
     if (isModernChromeUa(context.userAgent) === false) {
       return 'clean'

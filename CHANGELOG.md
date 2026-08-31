@@ -5,7 +5,20 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.1] - 2026-08-31
+
+### Added
+
+- Cypress harness profile (`cypress-chrome-headless`).
+
+### Changed
+
+- Recalibrated default detector weights.
+
+### Fixed
+
+- `webdriverFlag` weight was hardcoded instead of reading `DEFAULT_WEIGHTS`, so weight overrides skipped it.
+- `Pull request` CI badge always showed no status (`?branch=main` on a `pull_request`-only workflow).
 
 ## [1.0.0] - 2026-08-14
 
@@ -22,5 +35,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configurable weights, thresholds, group decay, evidence minimums, timeouts and detector disabling.
 - End-to-end browser harnesses that exercise the complete challenge → client collection → payload submission → server verdict route with Playwright, Puppeteer and Selenium.
 
-[unreleased]: https://github.com/kepheer/humanvoid/compare/v1.0.0...HEAD
+[1.0.1]: https://github.com/kepheer/humanvoid/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kepheer/humanvoid/releases/tag/v1.0.0

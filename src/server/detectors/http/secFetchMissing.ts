@@ -8,7 +8,7 @@ const SEC_FETCH_HEADERS = ['sec-fetch-mode', 'sec-fetch-site', 'sec-fetch-dest']
 export const secFetchMissing: IDetector<IServerContext> = {
   key: 'secFetchMissing',
   group: SIGNAL_GROUPS.HTTP,
-  weight: DEFAULT_WEIGHTS.secFetchMissing ?? 30,
+  weight: DEFAULT_WEIGHTS.secFetchMissing ?? 25,
   run: (context: IServerContext): TSignalResult => {
     if (isModernChromeOrEdgeUa(context.userAgent) === false) {
       return 'clean'

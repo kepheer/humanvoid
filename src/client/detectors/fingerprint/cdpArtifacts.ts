@@ -21,6 +21,6 @@ export const checkCdpArtifacts = (context: IClientContext): TSignalResult => {
 export const cdpArtifacts: IDetector<IClientContext> = {
   key: 'cdpArtifacts',
   group: SIGNAL_GROUPS.FINGERPRINT,
-  weight: DEFAULT_WEIGHTS.cdpArtifacts ?? 50,
+  weight: DEFAULT_WEIGHTS.cdpArtifacts ?? 55,
   run: (context: IClientContext): TSignalResult => checkCdpArtifacts(context),
 }

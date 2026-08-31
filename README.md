@@ -3,7 +3,7 @@
 [Русский](README_ru-RU.md)
 
 [![npm version](https://img.shields.io/npm/v/humanvoid?logo=npm&label=npm)](https://www.npmjs.com/package/humanvoid)
-[![Pull request](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml/badge.svg?branch=main)](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml)
+[![Pull request](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml/badge.svg)](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml)
 [![License](https://img.shields.io/github/license/kepheer/humanvoid)](LICENSE)
 
 `humanvoid` scores the likelihood that a browser request is automated. It returns evidence and a score; the application decides whether to allow, throttle, challenge, or block a request.
@@ -113,32 +113,32 @@ Signals are grouped into `fingerprint`, `graphics`, `http`, and `crossCheck`. Th
 
 | Group       | Signal                  | Weight | Suspicious when                                                 |
 | ----------- | ----------------------- | -----: | --------------------------------------------------------------- |
-| fingerprint | `webdriverFlag`         |     45 | `navigator.webdriver` is `true`                                 |
-| fingerprint | `cdpArtifacts`          |     50 | known automation keys exist on `window` or `document`           |
-| graphics    | `softwareRenderer`      |     35 | WebGL reports a known software renderer                         |
-| graphics    | `webglParamsAnomaly`    |     15 | WebGL capabilities are unusually constrained                    |
-| graphics    | `canvasFingerprint`     |     20 | canvas rendering is empty or unavailable                        |
-| graphics    | `audioFingerprint`      |     15 | OfflineAudio output is silent or has an unusual sample rate     |
-| http        | `secFetchMissing`       |     30 | a modern Chrome/Edge UA lacks a required `Sec-Fetch-*` header   |
-| http        | `secChUaMismatch`       |     32 | `Sec-CH-UA` is missing or conflicts with the claimed browser UA |
-| http        | `acceptEncodingAnomaly` |     15 | a modern Chrome UA lacks Brotli in `Accept-Encoding`            |
-| http        | `connectionAnomaly`     |     12 | a modern Chrome UA explicitly sends `Connection: close`         |
+| fingerprint | `webdriverFlag`         |     50 | `navigator.webdriver` is `true`                                 |
+| fingerprint | `cdpArtifacts`          |     55 | known automation keys exist on `window` or `document`           |
+| graphics    | `softwareRenderer`      |     18 | WebGL reports a known software renderer                         |
+| graphics    | `webglParamsAnomaly`    |     12 | WebGL capabilities are unusually constrained                    |
+| graphics    | `canvasFingerprint`     |      8 | canvas rendering is empty or unavailable                        |
+| graphics    | `audioFingerprint`      |      8 | OfflineAudio output is silent or has an unusual sample rate     |
+| http        | `secFetchMissing`       |     25 | a modern Chrome/Edge UA lacks a required `Sec-Fetch-*` header   |
+| http        | `secChUaMismatch`       |     30 | `Sec-CH-UA` is missing or conflicts with the claimed browser UA |
+| http        | `acceptEncodingAnomaly` |      8 | a modern Chrome UA lacks Brotli in `Accept-Encoding`            |
+| http        | `connectionAnomaly`     |      5 | a modern Chrome UA explicitly sends `Connection: close`         |
 | http        | `requestRateAnomaly`    |     25 | application-provided request rate exceeds its threshold         |
-| crossCheck  | `payloadMissing`        |     25 | payload is required but absent                                  |
-| crossCheck  | `payloadSchemaInvalid`  |     35 | supplied payload fails schema validation                        |
-| crossCheck  | `challengeInvalid`      |     40 | signed challenge is missing, expired, invalid, or reused        |
-| crossCheck  | `languageMismatch`      |     25 | client language and `Accept-Language` primary locales differ    |
+| crossCheck  | `payloadMissing`        |     30 | payload is required but absent                                  |
+| crossCheck  | `payloadSchemaInvalid`  |     30 | supplied payload fails schema validation                        |
+| crossCheck  | `challengeInvalid`      |     50 | signed challenge is missing, expired, invalid, or reused        |
+| crossCheck  | `languageMismatch`      |      8 | client language and `Accept-Language` primary locales differ    |
 | crossCheck  | `clientHintsMismatch`   |     25 | client User-Agent Client Hints conflict with their headers      |
 | crossCheck  | `uaCrossMismatch`       |     40 | client and HTTP User-Agent values differ                        |
-| crossCheck  | `platformMismatch`      |     30 | client platform and `Sec-CH-UA-Platform` differ                 |
+| crossCheck  | `platformMismatch`      |     20 | client platform and `Sec-CH-UA-Platform` differ                 |
 
-Signals without the required browser API, header, payload, or configuration return `null` rather than being counted as clean.
+Signals without the required browser API, header, payload, or configuration return `null` rather than being counted as clean. Weights favor cryptographic and cross-check evidence (`challengeInvalid`, `cdpArtifacts`, `webdriverFlag`, `uaCrossMismatch`) over environment-dependent heuristics that legitimate setups can also trigger (`softwareRenderer` on a VM without GPU passthrough, `canvasFingerprint` under privacy-hardened browsers, `languageMismatch` on a multilingual visitor).
 
 1. Within a group: `highest weight + groupDecay × sum(other weights)`.
 2. Group contributions add together and are clamped to `0..100`.
 3. `medium` and `high` use configurable thresholds. `high` also requires the configured number of suspicious signals and groups.
 
-With default weights, one direct client signal is `medium` (`45` or `50`); both are `high` (`72.5`). Server signals can independently raise the result. This is evidence ranking, not proof that a visitor is a bot.
+Example: `webdriverFlag` and `cdpArtifacts` are both in the `fingerprint` group. If only `webdriverFlag` fires, the score is `50` (`medium`). If both fire, the group contributes `55 + 0.5 × 50 = 80` (`high`), because the higher weight counts in full and the other one is halved by `groupDecay`. Server signals can independently raise the result. This is evidence ranking, not proof that a visitor is a bot.
 
 Pass `weights`, `thresholds`, `groupDecay`, `minSignalsForHigh`, `minGroupsForHigh`, `timeoutMs`, or `disabled` to either `detect` function. `requestRate` is application-provided; use one documented unit and window consistently.
 
@@ -157,7 +157,7 @@ pnpm run build:clean
 pnpm run test:e2e
 ```
 
-The browser harness launches Playwright, Puppeteer, and Selenium profiles through the complete client-server flow: challenge, client collection, payload submission, and server verdict. Install Playwright engines first:
+The browser harness launches Playwright, Puppeteer, Selenium, and Cypress profiles through the complete client-server flow: challenge, client collection, payload submission, and server verdict. Install Playwright engines first:
 
 ```sh
 pnpm exec playwright install chromium firefox webkit

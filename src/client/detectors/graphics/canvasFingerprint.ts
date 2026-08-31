@@ -34,6 +34,6 @@ export const checkCanvasFingerprint = async (context: IClientContext): Promise<T
 export const canvasFingerprint: IDetector<IClientContext> = {
   key: 'canvasFingerprint',
   group: SIGNAL_GROUPS.GRAPHICS,
-  weight: DEFAULT_WEIGHTS.canvasFingerprint ?? 20,
+  weight: DEFAULT_WEIGHTS.canvasFingerprint ?? 8,
   run: checkCanvasFingerprint,
 }

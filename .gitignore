@@ -16,6 +16,9 @@
 /playwright-report/
 .cache/
 
+# Cypress (spec is generated at runtime by harness/runners/cypress.mjs)
+/harness/cypress/
+
 # Local config and secrets
 .env
 .env.*

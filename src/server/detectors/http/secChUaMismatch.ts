@@ -15,7 +15,7 @@ const hasMatchingBrand = (brands: ISecChUaBrand[], ua: string): boolean =>
 export const secChUaMismatch: IDetector<IServerContext> = {
   key: 'secChUaMismatch',
   group: SIGNAL_GROUPS.HTTP,
-  weight: DEFAULT_WEIGHTS.secChUaMismatch ?? 32,
+  weight: DEFAULT_WEIGHTS.secChUaMismatch ?? 30,
   run: (context: IServerContext): TSignalResult => {
     const secChUa = context.headers['sec-ch-ua']
 

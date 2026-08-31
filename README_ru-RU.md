@@ -3,7 +3,7 @@
 [English](README.md)
 
 [![npm version](https://img.shields.io/npm/v/humanvoid?logo=npm&label=npm)](https://www.npmjs.com/package/humanvoid)
-[![Pull request](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml/badge.svg?branch=main)](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml)
+[![Pull request](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml/badge.svg)](https://github.com/kepheer/humanvoid/actions/workflows/pull-request.yml)
 [![License](https://img.shields.io/github/license/kepheer/humanvoid)](LICENSE)
 
 `humanvoid` оценивает вероятность того, что браузерный запрос был выполнен автоматически. Библиотека возвращает score и набор обнаруженных признаков, а приложение решает, разрешить запрос, ограничить его, потребовать challenge или заблокировать.
@@ -113,32 +113,32 @@ interface ICrawlerVerdict {
 
 | Группа      | Признак                 | Вес | Срабатывает, когда                                                        |
 | ----------- | ----------------------- | --: | ------------------------------------------------------------------------- |
-| fingerprint | `webdriverFlag`         |  45 | `navigator.webdriver` равен `true`                                        |
-| fingerprint | `cdpArtifacts`          |  50 | на `window` или `document` есть известные ключи автоматизации             |
-| graphics    | `softwareRenderer`      |  35 | WebGL сообщает известный software renderer                                |
-| graphics    | `webglParamsAnomaly`    |  15 | возможности WebGL необычно ограничены                                     |
-| graphics    | `canvasFingerprint`     |  20 | canvas rendering пустой или недоступен                                    |
-| graphics    | `audioFingerprint`      |  15 | OfflineAudio output тихий либо имеет необычную sample rate                |
-| http        | `secFetchMissing`       |  30 | у modern Chrome/Edge UA отсутствует обязательный `Sec-Fetch-*` header     |
-| http        | `secChUaMismatch`       |  32 | `Sec-CH-UA` отсутствует или конфликтует с заявленным browser UA           |
-| http        | `acceptEncodingAnomaly` |  15 | у modern Chrome UA нет Brotli в `Accept-Encoding`                         |
-| http        | `connectionAnomaly`     |  12 | modern Chrome UA явно отправляет `Connection: close`                      |
+| fingerprint | `webdriverFlag`         |  50 | `navigator.webdriver` равен `true`                                        |
+| fingerprint | `cdpArtifacts`          |  55 | на `window` или `document` есть известные ключи автоматизации             |
+| graphics    | `softwareRenderer`      |  18 | WebGL сообщает известный software renderer                                |
+| graphics    | `webglParamsAnomaly`    |  12 | возможности WebGL необычно ограничены                                     |
+| graphics    | `canvasFingerprint`     |   8 | canvas rendering пустой или недоступен                                    |
+| graphics    | `audioFingerprint`      |   8 | OfflineAudio output тихий либо имеет необычную sample rate                |
+| http        | `secFetchMissing`       |  25 | у modern Chrome/Edge UA отсутствует обязательный `Sec-Fetch-*` header     |
+| http        | `secChUaMismatch`       |  30 | `Sec-CH-UA` отсутствует или конфликтует с заявленным browser UA           |
+| http        | `acceptEncodingAnomaly` |   8 | у modern Chrome UA нет Brotli в `Accept-Encoding`                         |
+| http        | `connectionAnomaly`     |   5 | modern Chrome UA явно отправляет `Connection: close`                      |
 | http        | `requestRateAnomaly`    |  25 | заданная приложением частота запросов выше порога                         |
-| crossCheck  | `payloadMissing`        |  25 | payload обязателен, но отсутствует                                        |
-| crossCheck  | `payloadSchemaInvalid`  |  35 | переданный payload не проходит проверку схемы                             |
-| crossCheck  | `challengeInvalid`      |  40 | подписанный challenge отсутствует, истёк, некорректен или уже использован |
-| crossCheck  | `languageMismatch`      |  25 | основные локали client language и `Accept-Language` различаются           |
+| crossCheck  | `payloadMissing`        |  30 | payload обязателен, но отсутствует                                        |
+| crossCheck  | `payloadSchemaInvalid`  |  30 | переданный payload не проходит проверку схемы                             |
+| crossCheck  | `challengeInvalid`      |  50 | подписанный challenge отсутствует, истёк, некорректен или уже использован |
+| crossCheck  | `languageMismatch`      |   8 | основные локали client language и `Accept-Language` различаются           |
 | crossCheck  | `clientHintsMismatch`   |  25 | клиентские User-Agent Client Hints конфликтуют с заголовками              |
 | crossCheck  | `uaCrossMismatch`       |  40 | User-Agent на клиенте и в HTTP-запросе различаются                        |
-| crossCheck  | `platformMismatch`      |  30 | client platform и `Sec-CH-UA-Platform` различаются                        |
+| crossCheck  | `platformMismatch`      |  20 | client platform и `Sec-CH-UA-Platform` различаются                        |
 
-Если нужного browser API, header, payload или конфигурации нет, признак возвращает `null`, а не считается чистым.
+Если нужного browser API, header, payload или конфигурации нет, признак возвращает `null`, а не считается чистым. Веса отдают приоритет криптографическим и cross-check признакам (`challengeInvalid`, `cdpArtifacts`, `webdriverFlag`, `uaCrossMismatch`) над environment-зависимыми эвристиками, которые может сработать и у легитимного посетителя (`softwareRenderer` на VM без GPU passthrough, `canvasFingerprint` под privacy-hardened браузером, `languageMismatch` у мультиязычного пользователя).
 
 1. Внутри группы: `максимальный вес + groupDecay × сумма остальных весов`.
 2. Вклады всех групп складываются, а итоговый score ограничивается диапазоном `0..100`.
 3. Для `medium` и `high` используются настраиваемые пороги. Для `high` дополнительно требуется заданное количество подозрительных признаков и групп.
 
-С дефолтными весами один прямой клиентский признак даёт `medium` (`45` или `50`), оба вместе — `high` (`72.5`). Серверные признаки могут независимо повысить результат. Это ранжирование доказательств, а не доказательство того, что посетитель — бот.
+Пример: `webdriverFlag` и `cdpArtifacts` в одной группе `fingerprint`. Если сработал только `webdriverFlag` — score `50` (`medium`). Если сработали оба — вклад группы `55 + 0.5 × 50 = 80` (`high`): больший вес учитывается полностью, второй урезается вдвое через `groupDecay`. Серверные признаки могут независимо повысить результат. Это ранжирование доказательств, а не доказательство того, что посетитель — бот.
 
 В обе функции `detect` можно передать `weights`, `thresholds`, `groupDecay`, `minSignalsForHigh`, `minGroupsForHigh`, `timeoutMs` и `disabled`.
 
@@ -159,7 +159,7 @@ pnpm run build:clean
 pnpm run test:e2e
 ```
 
-Browser harness запускает профили Playwright, Puppeteer и Selenium по полному клиент-серверному маршруту: challenge, сбор на клиенте, отправка payload и серверный verdict. Сначала установите браузерные движки Playwright:
+Browser harness запускает профили Playwright, Puppeteer, Selenium и Cypress по полному клиент-серверному маршруту: challenge, сбор на клиенте, отправка payload и серверный verdict. Сначала установите браузерные движки Playwright:
 
 ```sh
 pnpm exec playwright install chromium firefox webkit

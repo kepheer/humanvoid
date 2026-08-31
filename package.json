@@ -1,6 +1,6 @@
 {
   "name": "humanvoid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scores how likely a visitor is an automated browser — Playwright, Puppeteer, raw CDP. Client and server, zero runtime deps.",
   "license": "MIT",
   "type": "module",
@@ -73,6 +73,7 @@
     "@types/node": "26.2.0",
     "@vitest/coverage-v8": "4.1.10",
     "chromedriver": "151.0.5",
+    "cypress": "15.20.1",
     "esbuild": "0.28.2",
     "eslint": "9.39.5",
     "eslint-config-prettier": "10.1.8",

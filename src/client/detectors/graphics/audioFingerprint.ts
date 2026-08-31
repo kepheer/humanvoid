@@ -35,6 +35,6 @@ export const checkAudioFingerprint = async (context: IClientContext): Promise<TS
 export const audioFingerprint: IDetector<IClientContext> = {
   key: 'audioFingerprint',
   group: SIGNAL_GROUPS.GRAPHICS,
-  weight: DEFAULT_WEIGHTS.audioFingerprint ?? 15,
+  weight: DEFAULT_WEIGHTS.audioFingerprint ?? 8,
   run: checkAudioFingerprint,
 }

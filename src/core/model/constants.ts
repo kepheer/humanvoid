@@ -25,25 +25,25 @@ export const SIGNAL_GROUPS = {
 } as const
 
 export const DEFAULT_WEIGHTS: Record<string, number> = {
-  webdriverFlag: 45,
-  cdpArtifacts: 50,
-  softwareRenderer: 35,
-  webglParamsAnomaly: 15,
-  canvasFingerprint: 20,
-  audioFingerprint: 15,
+  webdriverFlag: 50,
+  cdpArtifacts: 55,
+  softwareRenderer: 18,
+  webglParamsAnomaly: 12,
+  canvasFingerprint: 8,
+  audioFingerprint: 8,
 
-  secFetchMissing: 30,
-  secChUaMismatch: 32,
-  acceptEncodingAnomaly: 15,
-  connectionAnomaly: 12,
+  secFetchMissing: 25,
+  secChUaMismatch: 30,
+  acceptEncodingAnomaly: 8,
+  connectionAnomaly: 5,
   requestRateAnomaly: 25,
 
-  payloadMissing: 25,
-  payloadSchemaInvalid: 35,
-  challengeInvalid: 40,
-  languageMismatch: 25,
+  payloadMissing: 30,
+  payloadSchemaInvalid: 30,
+  challengeInvalid: 50,
+  languageMismatch: 8,
   uaCrossMismatch: 40,
-  platformMismatch: 30,
+  platformMismatch: 20,
   clientHintsMismatch: 25,
 }
 
