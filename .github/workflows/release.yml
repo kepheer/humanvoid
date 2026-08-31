@@ -42,12 +42,12 @@ jobs:
         run: |
           node --input-type=module -e "import pkg from './package.json' with { type: 'json' }; if ('v' + pkg.version !== process.env.TAG) throw new Error('Tag must equal v' + pkg.version)"
 
+      - run: pnpm publish --provenance --access public
+
       - name: Extract release notes
         env:
           TAG: ${{ github.ref_name }}
         run: node .github/scripts/release-notes.mjs "$TAG" > release-notes.md
-
-      - run: pnpm publish --provenance --access public
 
       - name: Create GitHub release
         env:
