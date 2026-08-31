@@ -1,6 +1,6 @@
 {
   "name": "humanvoid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scores how likely a visitor is an automated browser — Playwright, Puppeteer, raw CDP. Client and server, zero runtime deps.",
   "license": "MIT",
   "type": "module",
