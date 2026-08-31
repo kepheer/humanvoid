@@ -6,7 +6,7 @@ import type { IServerContext } from '@server/model/types'
 export const connectionAnomaly: IDetector<IServerContext> = {
   key: 'connectionAnomaly',
   group: SIGNAL_GROUPS.HTTP,
-  weight: DEFAULT_WEIGHTS.connectionAnomaly ?? 12,
+  weight: DEFAULT_WEIGHTS.connectionAnomaly ?? 5,
   run: (context: IServerContext): TSignalResult => {
     if (isModernChromeUa(context.userAgent) === false) {
       return 'clean'

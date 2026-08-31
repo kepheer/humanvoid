@@ -21,7 +21,7 @@ const extractPrimaryLocale = (value: string): string | null => {
 export const languageMismatch: IDetector<IServerContext> = {
   key: 'languageMismatch',
   group: SIGNAL_GROUPS.CROSS_CHECK,
-  weight: DEFAULT_WEIGHTS.languageMismatch ?? 25,
+  weight: DEFAULT_WEIGHTS.languageMismatch ?? 8,
   run: (context: IServerContext): TSignalResult => {
     if (context.payload === null) {
       return 'unavailable'

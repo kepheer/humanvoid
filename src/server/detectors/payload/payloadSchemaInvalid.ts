@@ -5,7 +5,7 @@ import type { IServerContext } from '@server/model/types'
 export const payloadSchemaInvalid: IDetector<IServerContext> = {
   key: 'payloadSchemaInvalid',
   group: SIGNAL_GROUPS.CROSS_CHECK,
-  weight: DEFAULT_WEIGHTS.payloadSchemaInvalid ?? 35,
+  weight: DEFAULT_WEIGHTS.payloadSchemaInvalid ?? 30,
   run: (context: IServerContext): TSignalResult => {
     if (context.payloadState === 'missing') {
       return 'unavailable'

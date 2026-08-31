@@ -29,6 +29,6 @@ export const checkWebglParamsAnomaly = (context: IClientContext): TSignalResult 
 export const webglParamsAnomaly: IDetector<IClientContext> = {
   key: 'webglParamsAnomaly',
   group: SIGNAL_GROUPS.GRAPHICS,
-  weight: DEFAULT_WEIGHTS.webglParamsAnomaly ?? 15,
+  weight: DEFAULT_WEIGHTS.webglParamsAnomaly ?? 12,
   run: checkWebglParamsAnomaly,
 }

@@ -6,7 +6,7 @@ import type { IServerContext } from '@server/model/types'
 export const challengeInvalid: IDetector<IServerContext> = {
   key: 'challengeInvalid',
   group: SIGNAL_GROUPS.CROSS_CHECK,
-  weight: DEFAULT_WEIGHTS.challengeInvalid ?? 40,
+  weight: DEFAULT_WEIGHTS.challengeInvalid ?? 50,
   run: async (context: IServerContext): Promise<TSignalResult> => {
     if (context.payloadState !== 'valid' || context.payload === null) {
       return 'unavailable'

@@ -32,6 +32,6 @@ export const checkSoftwareRenderer = (context: IClientContext): TSignalResult =>
 export const softwareRenderer: IDetector<IClientContext> = {
   key: 'softwareRenderer',
   group: SIGNAL_GROUPS.GRAPHICS,
-  weight: DEFAULT_WEIGHTS.softwareRenderer ?? 35,
+  weight: DEFAULT_WEIGHTS.softwareRenderer ?? 18,
   run: checkSoftwareRenderer,
 }
